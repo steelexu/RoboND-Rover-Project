@@ -11,6 +11,22 @@ def decision_step(Rover):
 
     # Example:
     # Check if we have vision data to make decisions with
+    for idx in range(len(Rover.samples_pos[0]) - 1):
+        test_rock_x = Rover.samples_pos[0][idx]
+        test_rock_y = Rover.samples_pos[1][idx]
+        rock_sample_dists = np.sqrt((test_rock_x - Rover.pos[0])**2 + (test_rock_y - Rover.pos[1])**2)
+        if np.min(rock_sample_dists) < 1 and Rover.see_sample==1:
+#        if Rover.near_sample==1:
+            #Rover.samples_found[idx] = 1
+            Rover.steer = 0
+            Rover.throttle = 0
+            Rover.brake = Rover.brake_set
+            Rover.mode == 'stop'
+            if not Rover.picking_up:
+                Rover.send_pickup=True
+                print("---------send pickup signal")
+
+
     if Rover.nav_angles is not None:
         # Check for Rover.mode status
         if Rover.mode == 'forward': 
@@ -25,7 +41,8 @@ def decision_step(Rover):
                     Rover.throttle = 0
                 Rover.brake = 0
                 # Set steering to average angle clipped to the range +/- 15
-                Rover.steer = np.clip(np.mean(Rover.nav_angles * 180/np.pi), -15, 15)
+                if Rover.see_sample != 1:
+                    Rover.steer = np.clip(np.mean(Rover.nav_angles * 180/np.pi), -15, 15)
             # If there's a lack of navigable terrain pixels then go to 'stop' mode
             elif len(Rover.nav_angles) < Rover.stop_forward:
                     # Set mode to "stop" and hit the brakes!

@@ -169,6 +169,12 @@ def perception_step(Rover):
     Rover.nav_angles = angles
     
  
+    if len(rock_x_world)>5:
+        Rover.see_sample = 1
+        dist_rock, angles_rock = to_polar_coords(xpix_rock, ypix_rock)
+        Rover.steer = np.clip(np.mean(angles_rock * 180/np.pi), -15, 15)
+    else: Rover.see_sample=0
+
     
     
     return Rover
