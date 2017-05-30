@@ -120,9 +120,9 @@ def perception_step(Rover):
     threshed = color_thresh(warped)
 
     obstacle_select=color_thresh_obstacle(warped)
-    Rover.vision_image[:,:,0]=obstacle_select
+    Rover.vision_image[:,:,0]=obstacle_select*255
 
-    Rover.vision_image[:,:,2]=threshed
+    Rover.vision_image[:,:,2]=threshed*255
     # 5) Convert map image pixel values to rover-centric coords
 
     xpix, ypix = rover_coords(threshed)
