@@ -11,20 +11,15 @@ def decision_step(Rover):
 
     # Example:
     # Check if we have vision data to make decisions with
-    for idx in range(len(Rover.samples_pos[0]) - 1):
-        test_rock_x = Rover.samples_pos[0][idx]
-        test_rock_y = Rover.samples_pos[1][idx]
-        rock_sample_dists = np.sqrt((test_rock_x - Rover.pos[0])**2 + (test_rock_y - Rover.pos[1])**2)
-        if np.min(rock_sample_dists) < 1 and Rover.see_sample==1:
-#        if Rover.near_sample==1:
-            #Rover.samples_found[idx] = 1
-            Rover.steer = 0
-            Rover.throttle = 0
-            Rover.brake = Rover.brake_set
-            Rover.mode == 'stop'
-            if not Rover.picking_up:
-                Rover.send_pickup=True
-                print("---------send pickup signal")
+    if Rover.near_sample==1:
+        Rover.throttle = 0
+        Rover.brake = Rover.brake_set
+        Rover.mode == 'stop'
+        print("----------------I stop")
+        if not Rover.picking_up and Rover.vel == 0:
+            Rover.send_pickup=True
+            print("---------send pickup signal")
+        return Rover
 
 
     if Rover.nav_angles is not None:

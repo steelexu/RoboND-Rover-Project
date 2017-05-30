@@ -172,7 +172,15 @@ def perception_step(Rover):
     if len(rock_x_world)>5:
         Rover.see_sample = 1
         dist_rock, angles_rock = to_polar_coords(xpix_rock, ypix_rock)
-        Rover.steer = np.clip(np.mean(angles_rock * 180/np.pi), -15, 15)
+        if np.min(dist_rock)<5:
+            Rover.throttle = 0
+            Rover.brake = Rover.brake_set
+#            Rover.mode == 'stop'
+        else: 
+            print("----------------I heading for", np.min(dist_rock))
+            Rover.steer = np.clip(np.mean(angles_rock * 180/np.pi), -15, 15)
+            #Rover.throttle=0.02
+        print("----------------I see isee change to ",Rover.steer )
     else: Rover.see_sample=0
 
     
