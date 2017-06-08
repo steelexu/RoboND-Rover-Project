@@ -17,6 +17,14 @@ import pickle
 import matplotlib.image as mpimg
 import time
 
+
+import matplotlib.pyplot as plt
+plt.ion() # set plot to animated
+fig = plt.figure()
+steer_buffer = [0]*30
+line, = plt.plot(steer_buffer)
+plt.ylim([-20,20])
+
 # Import functions for perception and decision making
 from perception import perception_step
 from decision import decision_step
@@ -123,6 +131,13 @@ def telemetry(sid, data):
                 send_pickup()
                 # Reset Rover flags
                 Rover.send_pickup = False
+
+            steer_buffer.append(Rover.steer)
+            del steer_buffer[0]
+            line.set_xdata(np.arange(len(steer_buffer)))
+            line.set_ydata(steer_buffer)
+            plt.pause(0.002)
+
         # In case of invalid telemetry, send null commands
         else:
 

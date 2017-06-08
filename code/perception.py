@@ -102,7 +102,7 @@ def perspect_transform(img, src, dst):
 
 # Apply the above functions in succession and update the Rover state accordingly
 def perception_step(Rover):
-    if (Rover.roll <355 and Rover.roll >5) or (Rover.pitch <355 and Rover.pitch>5):
+    if (Rover.roll <358 and Rover.roll >2) or (Rover.pitch <358 and Rover.pitch>2):
         return Rover
 
     # Perform perception steps to update Rover()
